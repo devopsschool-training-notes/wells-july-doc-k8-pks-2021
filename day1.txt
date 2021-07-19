@@ -1,0 +1,397 @@
+1234567890
+--------------------------------
+Rajesh Kumar
+
+Time - 9 - 1
+=====================
+Break - 15mins
+======================
+LAB infra - Shared
+
+Agenda 
+----------------
+==============================================
+- 
+
+==============================================================================
+Discussion -> Demo -> LAB -> Assignment(Offline)
+			     ------------------	
+				    BDS
+				night @ 11 PM
+------------------------------------------------------
+Coding for Product - java
+Coding for testing a product - sel with java
+Coding for ops and int and infra - 
+		terraform
+		jenkinsfile
+		packerfile
+		ansible
+		dockerilfe
+		helm
+=======================================================
+What is Docker?
+----------------
+	is not container -> WRONG
+	Manages a container
+	Container mgmt tool ( Platform )
+	Written in Go
+	by Soloman hykes
+	Release
+		Community 
+		Enterprise s
+	https://www.devopsschool.com/blog/difference-between-docker-community-edition-ce-vs-docker-enterprise-edition-ee-in-2020/
+
+	Named with "docker engine"
+
+
+	Tool
+	- Save cost
+		--> During running apps in DATA Center
+			-> CPU + RAM + STO
+	- Inc Quality
+		--> Software Quality
+			---- Redue
+	- Imp* Eff*	
+		
+---------------------------------------
+	mgmt 
+
+
+	What is Container?
+	
+	Container is a app run time env which is ISOLATED & Independent
+
+	is a 
+		1 USER
+		1 NET
+		1 PID
+		1 MNT - ROOT
+			Attached together.
+
+What are the resources we need to run 1 App?
+---------------------------------------------
+Hardware
+	OS
+	  Kernel
+	
+		Namesapce		NEED			CAN			ALLOWED by OS
+		- USER			1 USR			UNLIMITED		UNLIMITED	
+		- MNT			1 ROOTFS		UNLIMITED		1
+		- NET			1 NET			UNLIMITED		1
+		- PID			1 PID MAP		UNLIMITED		1
+
+
+		CGROUP - RAM and CPU allocation to PID 
+			
+		
+
+FILESYSTEM - collection of file/dir for one purpose.
+	BOOT FILESYSTEM	- kernel
+	ROOT FILESYSTEM - U SEE IT EVERYDAY 
+	USER FILESYSTEM 
+	APP FILESYSTEM 
+
+The kernel is a computer program at the core of a computer's operating system and has complete control over everything in the system. 
+------------------------------------------
+Evoluton of computing
+
+PHYSCIAL SERVER				Virtualization				?????
+------------------	Internet			
+OS
+
+------------------------------------------------------------
+1 DAY					5 mins					1 SEC
+100Rs					20Rs					5 RS
+			
+
+
+pc-
+
+
+Other tools
+--------------------------------
+https://www.devopsschool.com/blog/list-of-top-container-runtime-interface-projects/
+
+
+------------------------------------------
+How docker works? Aka Docker Arch?
+-------------------------------------------------
+HUMAN -> Docker Client ----REST-----> Docker deamon(Server) -----> ContainerD -------> Kernal
+	----TOOL------
+
+	---------------------ENGINE----------------------------
+
+How to install docker?
+https://devopsschool.com/tutorial/docker/install-config/index.html
+https://devopsschool.com/tutorial/docker/install-config/docker-install-commuityedition-centos-rhel.html
+- LINUX
+- WINDOWS
+- MAC
+13.232.242.225
+
+
+   1  clear
+    2  ls
+    3  sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+    4  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    5  sudo yum install –y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    6  sudo yum-config-manager --enable rhui-REGION-rhel-server-extras
+    7  sudo yum install -y docker-ce
+    8  docker -v
+    9  clear
+   10  sudo systemctl enable docker
+   11  sudo systemctl start docker
+   12  clear
+   13  docker info
+   14  clear
+   15  which docker
+   16  which dockerd
+   17  ps -eaf | grep dockerd
+   18  which containerd
+   19  ps -eaf | grep containerd
+   20  history
+
+
+Docker Components
+-------------------------------------------
+Docker Engine
+	Docker Client ----REST-----> Docker deamon(Server)
+
+
+Docker Image
+	Collection of file system(s)
+ROOT -> USER -> APP
+ubuntu + root
+ubuntu + user + java + jenkins
+
+	FROM Image - You can get multiple container.
+	From Image - Each container would have ONE copy of image and get MOUTNED TO CONTAINER
+
+Registry
+	Repository aka Image
+		Contains VERSION OF FILESYSTEM
+			-----------------------------
+
+	LOCAL Registry
+	Remote Registry
+	- PUBLIC  
+		https://hub.docker.com/	
+		google registry
+	- Artifactory
+	- Nexus
+	- Docker registry
+	- ECR	
+
+Container
+	HUMAN -> CLIENT -> Server
+				DO I HAVE IMAGE in LR
+				- YES --> ContaineD  -> Keranel
+						Create one NET
+						CREATE one PIDMAP
+						CReate one USER
+						Create ONE MNT from ONE COPY OF image
+			
+						ATTACH USER to THAT NET + PID + MNT
+				- NO --> DOWNLOAD FROM HUB to LR
+					ContaineD  -> Keranel
+						Create one NET
+						CREATE one PIDMAP
+						CReate one USER
+						Create ONE MNT from ONE COPY OF image
+			
+						ATTACH USER to THAT NET + PID + MNT
+
+Vm Image
+--------------------------
+BOOT -> ROOT -> USER -> APP
+	
+Lifecycle of Vms
+------------------------------------------------------------------------------------
+create -> start -> stop -> start -> restart -> pause -> unpause -> kill -> remove
+
+Lifecycle of containers
+------------------------------------------------------------------------------------
+create -> start -> stop -> start -> restart -> pause -> unpause -> kill -> remove
+
+   1  docker images
+    2  docker ps
+    3  docker ps -a
+    4  docker pull httpd
+    5  docker images
+    6  clear
+    7  ls
+    8  docker create httpd
+    9  docker ps
+   10  docker ps -a
+   11  docker ps -a
+   12  docker start f7b6f6169996
+   13  docker ps
+   14  docker create httpd
+   15  docker create httpd
+   16  clear
+   17  docker ps -a
+   18  docker stop f7b6f6169996
+   19  docker ps -a
+   20  docker start f7b6f6169996
+   21  docker ps -a
+   22  clear
+   23  docker ps -a
+   24  docker restart f7b6f6169996
+   25  docker ps -a
+   26  docker pause f7b6f6169996
+   27  docker ps -a
+   28  docker unpause f7b6f6169996
+   29  docker ps -a
+   30  clear
+   31  docker ps
+   32  docker kill f7b6f6169996
+   33  docker ps -a
+   34  docker rm f7b6f6169996 846ac70399e5 125cf21c5805
+   35  clear
+   36  docker ps -a
+   37  docker create httpd
+   38  docker ps -a
+   39  docker start d2284fa3b876
+   40  docker stop d2284fa3b876
+   41  docker start d2284fa3b876
+   42  docker restart d2284fa3b876
+   43  docker pause d2284fa3b876
+   44  docker unpause d2284fa3b876
+   45  docker kill d2284fa3b876
+   46  docker rm d2284fa3b876
+   47  clear
+   48  history
+
+-------------------------
+ 50  clear
+   51  docker ps
+   52  docker ps -a
+   53  docker crreate httpd
+   54  docker create httpd
+   55  docker ps
+   56  docker ps -a
+   57  df -kh
+   58  clear
+   59  docker ps
+   60  ps -eaf | grep containerd
+   61  id
+   62  ps
+   63  ps
+   64  ps -eaf | grep 18248
+   65  ps -eaf | grep 18246
+   66  ps -eaf | grep 18226
+   67  ps -eaf | grep 18225
+   68  ps -eaf | grep 18222
+   69  ps -eaf | grep 1200
+   70  clear
+   71  docker ps -a
+   72  docker start 2c3330132acf
+   73  clear
+   74  df -kh
+   75  ls /var/lib/docker/overlay2/dcc8c5f076bd3431faf8c89384d570dc5da6d2961e267aad3c4bd050b6ec8562/merged
+   76  ps -eaf | grep containerd
+   77  docker ips
+   78  docker ps
+   79  docker inspect 2c3330132acf
+   80  clear
+   81* docker run -itd ubu
+   82  docker exec -it 2c3330132acf /bin/bash
+   83  docker run -itd ubuntu
+   84  clear
+   85  docker ps
+   86  docker exec -it add679651b90 /bin/bash
+   87  clear
+   88  docker ps
+   89  docker inspect add679651b90
+   90  clear
+   91  df -kh
+   92  docker ps
+   93  ps -eaf | grep containerd
+   94  docker stop add679651b90 2c3330132acf
+   95  ps -eaf | grep containerd
+   96  df -kh
+   97  docker start add679651b90 2c3330132acf
+   98  ps -eaf | grep containerd
+   99  df -kh
+
+---------------------
+DOCKER NEEDS
+-------------------
+root user
+or
+user need to be a part of group called "docker"
+
+
+httpd == rootfs + user + httpd
+
+Assignment
+============================
+Where is the LOCAL Registry and How do i find out???
+Git is NOT versioning a file. So what?
+What is diff between docker pause and docker unpuase?
+What is significant of docker stop and docker kill?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=========================
+https://www.devopsschool.com/lms/
+https://www.devopsschool.com/lms/mod/quiz/view.php?id=250
+Results - shiva@palmeto.co.in
+=======================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
