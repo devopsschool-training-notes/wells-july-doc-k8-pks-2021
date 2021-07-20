@@ -127,7 +127,21 @@ https://devopsschool.com/tutorial/docker/install-config/docker-install-commuitye
 - LINUX
 - WINDOWS
 - MAC
+
+
 13.232.242.225
+centos
+centos123
+
+
+rajesh@devopsschool.com
+-------------
+QUIZ
+LAB
+ASSIGNMENT - OFFLINE
+
+
+
 
 
    1  clear
@@ -185,13 +199,14 @@ Registry
 Container
 	HUMAN -> CLIENT -> Server
 				DO I HAVE IMAGE in LR
-				- YES --> ContaineD  -> Keranel
+				- YES --> ContaineD  -> Kernel
 						Create one NET
 						CREATE one PIDMAP
 						CReate one USER
 						Create ONE MNT from ONE COPY OF image
 			
 						ATTACH USER to THAT NET + PID + MNT
+
 				- NO --> DOWNLOAD FROM HUB to LR
 					ContaineD  -> Keranel
 						Create one NET
@@ -330,6 +345,134 @@ Where is the LOCAL Registry and How do i find out???
 Git is NOT versioning a file. So what?
 What is diff between docker pause and docker unpuase?
 What is significant of docker stop and docker kill?
+
+--------------------------
+
+
+mvlsivakumar@gmail.com
+
+
+
+
+
+Saisandeep Draksharapu	https://cloudlabs.palmeto.co.in		Wellsfargo-pks01	P@lmeto@123
+Suresh Ramisetti	https://cloudlabs.palmeto.co.in		Wellsfargo-pks02	P@lmeto@123
+KHAJA BABU SHAIK	https://cloudlabs.palmeto.co.in		Wellsfargo-pks03	P@lmeto@123
+Vishal Aswar	https://cloudlabs.palmeto.co.in		Wellsfargo-pks04	P@lmeto@123
+Narender Yalamadhi	https://cloudlabs.palmeto.co.in		Wellsfargo-pks05	P@lmeto@123
+Rajendra	https://cloudlabs.palmeto.co.in		Wellsfargo-pks06	P@lmeto@123
+sivaiah Merugumala	https://cloudlabs.palmeto.co.in		Wellsfargo-pks07	P@lmeto@123
+Akhil Nalumachu	https://cloudlabs.palmeto.co.in		Wellsfargo-pks08	P@lmeto@123
+Katreddy Kishore Kumar Reddy	https://cloudlabs.palmeto.co.in		Wellsfargo-pks09	P@lmeto@123
+deep raj	https://cloudlabs.palmeto.co.in		Wellsfargo-pks10	P@lmeto@123
+Nagendra	https://cloudlabs.palmeto.co.in		Wellsfargo-pks11	P@lmeto@123
+	https://cloudlabs.palmeto.co.in		Wellsfargo-pks12	P@lmeto@123
+				
+centos	root	root		
+windows	administrator			
+
+
+==========================================================================
+==========================================================================
+run
+---------------------
+pull -> create -> start -> it get attached(interact with PID1) to a container(become a container)
+
+run -d
+---------------------
+pull -> create -> start -> not attached(not interact with PID1) to a container(become a container)
+=========================================================================================
+
+Magic of PID1
+---------------------------------------------------------------
+PHYSICAL Server 		Virutal Server			Container
+is running			is running			is running
+as long as 			as long as 			as long as 
+PID 1 is running		PID 1 is running		PID 1 is running
+
+
+PID 1 is KERANL BOOT		PID 1 is KERANL BOOT		PID 1 is ANYTHING
+	
+What you do when Vms is running?
+What you do when Container is running?
+-------------------------------
+GO inside & interact
+	WINDOWS - powershell
+	Linux - bash
+
+exec
+	it would execute an any executable inside a container
+	you can interact with -it and bash
+
+ 6  docker images
+    7  docker run httpd
+    8  clear
+    9  docker ps -a
+   10  docker run httpd
+   11  docker ps -a
+   12  clea
+   13  clear
+   14  docker run ubuntu
+   15  docker ps
+   16  docker ps -a
+   17  ps
+   18  ls
+   19  docker run ubuntu ls
+   20  docker ps -a
+   21  clear
+   22  docker run -d httpd
+   23  docker ps -a
+   24  docker run -d httpd
+   25  docker ps -a
+   26  clear
+   27  ls
+   28  docker ps
+   29  docker exec f018e2e67cf8 ls
+   30  docker exec f018e2e67cf8 ps -eaf
+   31  ffff
+   32  ls
+   33  which ls
+   34  clear
+   35  docker exec f018e2e67cf8 df
+   36  docker exec -it f018e2e67cf8 /bin/bash
+   37  docker ps
+   38  clear
+   39  docker ps
+   40  docker attach f018e2e67cf8
+   41  docker ps
+
+
+attach
+	it would get attached to PID1
+
+
+
+Access from outside
+	through network
+
+$ docker run -d -p 80:80 httpd
+$ docker run -d -p 81:80 httpd
+$ docker run -d -p 82:80 httpd
+
+80:80
+NODE:CONTAINER
+----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
