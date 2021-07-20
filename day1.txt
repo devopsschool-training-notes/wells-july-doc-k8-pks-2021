@@ -456,13 +456,94 @@ $ docker run -d -p 82:80 httpd
 
 80:80
 NODE:CONTAINER
-----------------------------------
+--------------------------------------------------------------------
+
+ 66  docker info
+   67  cd /var/lib/docker
+   68  clear
+   69  ls
+   70  cd overlay2/
+   71  ls
+   72  docker info
+   73  clear
+   74  ls
+   75  du -sh .
+   76  ls
+   77  docker pull ubuntu
+   78  ls
+   79  docker inspect ubuntu
+   80  ls
+   81  clear
+   82  ls
+   83  cd b65c7b18361154ef9c5cc82dd526ca4b3bae8198c4cdcf4d1ba809c534d771ff
+   84  ls
+   85  clear
+   86  ls
+   87  cd doif
+   88  cd diff/
+   89  ls
+   90  clear
+   91  ls
+   92  cd ..
+   93  ls
+   94  cd ..
+   95  ls
+   96  clear
+   97  ls
+   98  docker pull httpd
+   99  ls
+  100  docker inspect httpd
+  101  clear
+  102  ls
+  103  docker run -d httpd
+  104  ls
+  105  docker run -d httpd
+  106  ls
+  107  df -kh
+  108  cd /var/lib/docker/overlay2/288620fe1daea58da72157d0768a6626b396fc826d982585a1cd134c320233fc/merged
+  109  ls
+  110  cd -
+  111  ls
+  112  df -kh
 
 
 
+How to create an Image?
+-------------------------------------------
+Lazy - Manual - Container
+----------------------------------------
+
+Image
+---- ubuntu
+---- git
+---- apache
+-----------------
 
 
 
+Smart - Automated - Dockerfile
+
+
+
+How to come out of the container without exiting?
+----
+docker run -it ubuntu
+cntrl + p + q with bash
+
+
+docker run -itd ubuntu
+
+
+docker commit -m"ub-up-git-apache" -a "Rajesh" a6d7c7abc07a ub-up-git-apache
+
+
+
+   3  docker ps
+    4  docker attach a6d7c7abc07a
+    5  docker ps -a
+    6  clear
+    7  docker commit -m"ub-up-git-apache" -a "Rajesh" a6d7c7abc07a ub-up-git-apache
+    8  docker images
 
 
 
