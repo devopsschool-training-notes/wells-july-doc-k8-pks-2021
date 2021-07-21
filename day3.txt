@@ -1,0 +1,24 @@
+URL	URL	Username	Password	Password
+1	https://hydcloud.rpsconsulting.in/console	Palmeto_User01	rps@12345	Vishal
+2	https://hydcloud.rpsconsulting.in/console	Palmeto_User02	rps@12345	Masthan
+3	https://hydcloud.rpsconsulting.in/console	Palmeto_User03	rps@12345	Rajendra
+4	https://hydcloud.rpsconsulting.in/console	Palmeto_User04	rps@12345	Ranjit
+5	https://hydcloud.rpsconsulting.in/console	Palmeto_User05	rps@12345	Swetha
+6	https://hydcloud.rpsconsulting.in/console	Palmeto_User06	rps@12345	Dinesh Chandra
+7	https://hydcloud.rpsconsulting.in/console	Palmeto_User07	rps@12345	Vindhya
+8	https://hydcloud.rpsconsulting.in/console	Palmeto_User08	rps@12345	Shiva Kumar
+9	https://hydcloud.rpsconsulting.in/console	Palmeto_User09	rps@12345	Bhargav
+10	https://cloudlabs.palmeto.co.in	Wellsfargo-pks01	P@lmeto@123	Saisandeep Draksharapu
+11	https://cloudlabs.palmeto.co.in	Wellsfargo-pks02	P@lmeto@123	Suresh Ramisetti
+12	https://cloudlabs.palmeto.co.in	Wellsfargo-pks03	P@lmeto@123	KHAJA BABU SHAIK
+13	https://cloudlabs.palmeto.co.in	Wellsfargo-pks04	P@lmeto@123	Narender Yalamadhi
+14	https://cloudlabs.palmeto.co.in	Wellsfargo-pks05	P@lmeto@123	sivaiah Merugumala
+15	https://cloudlabs.palmeto.co.in	Wellsfargo-pks06	P@lmeto@123	Akhil Nalumachu
+16	https://cloudlabs.palmeto.co.in	Wellsfargo-pks07	P@lmeto@123	Katreddy Kishore Kumar Reddy
+17	https://cloudlabs.palmeto.co.in	Wellsfargo-pks08	P@lmeto@123	deep raj
+18	https://cloudlabs.palmeto.co.in	Wellsfargo-pks09	P@lmeto@123	Nagendra
+19	https://cloudlabs.palmeto.co.in	Wellsfargo-pks10	P@lmeto@123	Madhu
+20	https://cloudlabs.palmeto.co.in	Wellsfargo-pks11	P@lmeto@123	Hemanth
+21	https://cloudlabs.palmeto.co.in	Wellsfargo-pks12	P@lmeto@123	Sujeth Kumar Reddy
+22	https://cloudlabs.palmeto.co.in	Wellsfargo-pks12	P@lmeto@123	Vijay K
+23	https://cloudlabs.palmeto.co.in	Wellsfargo-pks13	P@lmeto@123	Vishwanath
