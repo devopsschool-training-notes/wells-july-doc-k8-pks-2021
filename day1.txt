@@ -577,9 +577,47 @@ Results - shiva@palmeto.co.in
 =======================================================
 
 
+Notes - 
+https://github.com/devopsschool-training-notes/wells-july-doc-k8-pks-2021
 
+Docker - Lab - Assignment - Excercise
 
+Step 1 - Register a site to POST Assigment and Share with Trainer and For Self Notes
+- How to register? - https://www.bestdevops.com/wp-login.php?action=register
+# Check Inbox SPAM box for Activation Email.
+- How to login? - https://www.bestdevops.com/wp-login.php
+- How to write post? - https://www.bestdevops.com/wp-admin/post-new.php
+- How to check your Post? - https://www.bestdevops.com
 
+Step 2 - Pre Test using LMS
+- Login to https://www.devopsschool.com/lms/ using any gmail account
+- Try this quiz - https://www.devopsschool.com/lms/mod/quiz/view.php?id=250
+- Send a results to shiva@palmeto.co.in
+
+Step 3 - Install Docker Engine in Centos#1 Vm.
+- https://devopsschool.com/tutorial/docker/install-config/docker-install-commuityedition-centos-rhel.html
+
+Step 4 - Assignment#1
+- Create a Ubuntu container
+- Install Update, git & apache2 
+- run a git command in container from outside 
+
+Step 5 - Assignment#2
+- Create a httpd container exposed at 8080 port
+- Access(curl) container from node 
+
+Step 6 - Assignment#3
+Find out answer for following questions
+- Where is the LOCAL Registry and How do i find out???
+- [OFFLINE]Git is NOT versioning a file. So what?
+- What is diff between docker pause and docker unpuase?
+- What is significant of docker stop and docker kill?
+- Create an image with base - centos and git must be installed in it.
+
+Step 7 - SHARE ASSIGNMENT WITH TRAINER
+- Create a POST and Send a URL of post in Zoom Chat.
+- Of Assignment#1 - Assignment#2 - Assignment#3 in one post
+- Post title can be of your choise
 
 
 
