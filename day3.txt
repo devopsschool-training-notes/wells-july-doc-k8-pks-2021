@@ -1,13 +1,14 @@
 URL	URL	Username	Password	Password
-1	https://hydcloud.rpsconsulting.in/console	Palmeto_User01	rps@12345	Vishal
-2	https://hydcloud.rpsconsulting.in/console	Palmeto_User02	rps@12345	Masthan
-3	https://hydcloud.rpsconsulting.in/console	Palmeto_User03	rps@12345	Rajendra
-4	https://hydcloud.rpsconsulting.in/console	Palmeto_User04	rps@12345	Ranjit
-5	https://hydcloud.rpsconsulting.in/console	Palmeto_User05	rps@12345	Swetha
-6	https://hydcloud.rpsconsulting.in/console	Palmeto_User06	rps@12345	Dinesh Chandra
-7	https://hydcloud.rpsconsulting.in/console	Palmeto_User07	rps@12345	Vindhya
-8	https://hydcloud.rpsconsulting.in/console	Palmeto_User08	rps@12345	Shiva Kumar
-9	https://hydcloud.rpsconsulting.in/console	Palmeto_User09	rps@12345	Bhargav
+1	https://hydcloud.rpsconsulting.in/console	Palmeto_User01	rps@12345	Vishal	13.235.69.82
+2	https://hydcloud.rpsconsulting.in/console	Palmeto_User02	rps@12345	Masthan	52.66.239.174
+3	https://hydcloud.rpsconsulting.in/console	Palmeto_User03	rps@12345	Rajendra	13.233.157.45
+4	https://hydcloud.rpsconsulting.in/console	Palmeto_User04	rps@12345	Ranjit	13.126.179.163
+5	https://hydcloud.rpsconsulting.in/console	Palmeto_User05	rps@12345	Swetha	13.232.145.94
+6	https://hydcloud.rpsconsulting.in/console	Palmeto_User06	rps@12345	Dinesh Chandra	3.108.235.52
+7	https://hydcloud.rpsconsulting.in/console	Palmeto_User07	rps@12345	Vindhya	13.127.19.27
+8	https://hydcloud.rpsconsulting.in/console	Palmeto_User08	rps@12345	Shiva Kumar	52.66.158.89	
+9	https://hydcloud.rpsconsulting.in/console	Palmeto_User09	rps@12345	Bhargav	52.66.237.175
+
 10	https://cloudlabs.palmeto.co.in	Wellsfargo-pks01	P@lmeto@123	Saisandeep Draksharapu
 11	https://cloudlabs.palmeto.co.in	Wellsfargo-pks02	P@lmeto@123	Suresh Ramisetti
 12	https://cloudlabs.palmeto.co.in	Wellsfargo-pks03	P@lmeto@123	KHAJA BABU SHAIK
