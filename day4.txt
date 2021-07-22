@@ -1,0 +1,13 @@
+Assignment - 
+
+Title of the Post you decide? - 
+Time - 20 mins
+Cheating is allowed
+--------
+- What are the 10 feature of kubernetes?
+- How kubernetes works?
+- What are the components of Master? explain in one line sentense
+- What are the components of Worker? explain in one line sentense
+- What are the components of Workstation? explain in one line sentense
+
+BestDevOps.com - share a url for me.
