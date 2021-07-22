@@ -22,3 +22,5 @@ What is POD? Explain in 20 BULLET LINE.
 --------------
 
 
+Slides
+https://devopsschool.com/slides/
