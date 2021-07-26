@@ -1,0 +1,105 @@
+How to work with API?
+==================================================
+	GET - POST - PUT - DELETE
+	CRUD
+	======================================
+	Create
+		CMD
+			create
+		YAML
+			create -f yamlfile
+	Read
+		CMD
+			get
+			describe
+
+	Update
+		CMD
+			edit
+		YAML
+			apply -f create -f yamlfile
+	Delete
+		CMD 
+			delete
+		YAML
+			create -f yamlfile
+=========================================
+
+What is kubernetes pods with example commands.
+
+- Kubernetes run PODS
+- Atomic Unit of Work Scheduling is POD in kubernetes
+- Pod get instansciated from Kubelet
+- Pod contains one or more container e.g docker
+- Pod get assignment of IP from kube proxy
+- Worker may have one or multiple pods
+- Pods is Scheduled to kubelet by Schedular
+- Pods are EMPHERAL. Same POD can not be run. Similar pods you may get
+- PODS is running state as long as "All Container" is running/succeded.
+- Pods has state from PEDNING -> RUNNING -> succeded/failed -> Terminated
+- Pod name must be unique in Namespace
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodehelloworld.example.com
+  labels:
+    app: helloworld
+spec:
+  containers:
+  - name: devopsschool1
+    image: scmgalaxy/nginx-devopsschoolv1
+    ports:
+    - name: nginx-port
+      containerPort: 80
+
+   54  vi pod.yaml
+   55  ls
+   56  kubectl get ns
+   57  kubectl create ns rajesh
+   58  clear
+   59  ls
+   60  kubectl get ns
+   61  clear
+   62  kubectl get pods
+   63  kubectl get pods -n=rajesh
+   64  kubectl get pods -n=dev
+   65  clear
+   66  ls
+   67  kubectl create -f pod.yaml
+   68  kubectl get pods
+   69  clear
+   70  kubectl get pods
+   71  kubectl create -f pod.yaml
+   72  kubectl create -f pod.yaml -n=rajesh
+   73  kubectl get pods -n=rajesh
+   74  kubectl get pods
+   75  kubectl get pods -n=rajesh,dev
+   76  kubectl get pods --all-namespaces
+   77  clear
+   78  kubectl get pods -o wide
+   79  ping 10.44.0.1
+   80  clear
+   81  ls
+   82  clear
+   83  kubectl get pods
+   84  kubectl edit pod nodehelloworld.example.com
+   85  kubectl get pods --show-labels
+   86  kubectl -h
+   87  kubectl get -h
+   88  clear
+   89  kubectl get pods -h
+   90  clear
+   91  ls
+   92  vi pod.yaml
+   93  kubectl apply -f pod.yaml
+   94  kubectl get pods --show-labels
+   95  clear
+   96  ls
+   97  kubectl get pods
+   98  kubectl delete pod nodehelloworld.example.com
+   99  kubectl delete pod nodehelloworld.example.com -n=rajesh
+  100  kubectl get pods --all-namespaces
+  101  history
+
+
