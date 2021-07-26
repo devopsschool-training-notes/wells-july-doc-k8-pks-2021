@@ -104,3 +104,318 @@ spec:
   101  history
 
 
+===========================
+exec
+
+attach
+
+logs
+
+ip
+
+inspect
+---------------------------
+How to use & troubleshoot Kubernetes pods?
+
+$ kubectl
+
+Troubleshooting and Debugging Commands:
+
+  explain       Documentation of resources
+  describe      Show details of a specific resource or group of resources
+  logs          Print the logs for a container in a pod
+  attach        Attach to a running container
+  exec          Execute a command in a container
+  port-forward  Forward one or more local ports to a pod
+  cp            Copy files and directories to and from containers.
+  auth          Inspect authorization
+  run           Run a particular image on the cluster
+   
+
+explain       Documentation of resources
+-----------------------------------------
+  $ kubectl explain -h
+  106  kubectl explain pod
+  107  kubectl explain pod.spec
+  108  clear
+  109  kubectl explain pod.spec.containers
+  110  clear
+  111  kubectl explain ns
+  112  kubectl explain ns.spec
+  113  clear
+  114  history
+
+
+describe      Show details of a specific resource or group of resources
+-----------------------------------------
+Examples:
+  122  kubectl get pods
+  123  kubectl describe pod nodehelloworld.example.com
+  124  clear
+  125  kubectl get ns
+  126  kubectl describe ns dev
+  127  kubectl describe -h
+
+
+  # Describe a node
+  kubectl describe nodes kubernetes-node-emt8.c.myproject.internal
+
+  # Describe a pod
+  kubectl describe pods/nginx
+
+  # Describe a pod identified by type and name in "pod.json"
+  kubectl describe -f pod.json
+
+  # Describe all pods
+  kubectl describe pods
+
+  # Describe pods by label name=myLabel
+  kubectl describe po -l name=myLabel
+
+  # Describe all pods managed by the 'frontend' replication controller (rc-created pods
+  # get the name of the rc as a prefix in the pod the name).
+  kubectl describe pods frontend
+
+
+  logs          Print the logs for a container in a pod
+========================================================
+  138  curl http://10.44.0.1
+  139  kubectl logs nodehelloworld.example.com
+  140  kubectl logs nodehelloworld.example.com
+  141  kubectl get nodes
+  142  clear
+  143  kubectl logs nodehelloworld.example.com
+  144  kubectl logs -h
+
+
+Examples:
+  # Return snapshot logs from pod nginx with only one container
+  kubectl logs nginx
+
+  # Return snapshot logs from pod nginx with multi containers
+  kubectl logs nginx --all-containers=true
+
+  # Return snapshot logs from all containers in pods defined by label app=nginx
+  kubectl logs -lapp=nginx --all-containers=true
+
+  # Return snapshot of previous terminated ruby container logs from pod web-1
+  kubectl logs -p -c ruby web-1
+
+  # Begin streaming the logs of the ruby container in pod web-1
+  kubectl logs -f -c ruby web-1
+
+  # Begin streaming the logs from all containers in pods defined by label app=nginx
+  kubectl logs -f -lapp=nginx --all-containers=true
+
+  # Display only the most recent 20 lines of output in pod nginx
+  kubectl logs --tail=20 nginx
+
+  # Show all logs from pod nginx written in the last hour
+  kubectl logs --since=1h nginx
+
+  # Show logs from a kubelet with an expired serving certificate
+  kubectl logs --insecure-skip-tls-verify-backend nginx
+
+  # Return snapshot logs from first container of a job named hello
+  kubectl logs job/hello
+
+  # Return snapshot logs from container nginx-1 of a deployment named nginx
+  kubectl logs deployment/nginx -c nginx-1
+
+
+  attach        Attach to a running container
+=======================================================
+  153  kubectl get pods
+  154  kubectl attach nodehelloworld.example.com
+  155  clear
+  156  kubectl attach -h
+
+  37  curl http://10.44.0.1
+  38  watch curl http://10.44.0.1
+
+  # Get output from running pod mypod, use the kubectl.kubernetes.io/default-container annotation
+  # for selecting the container to be attached or the first container in the pod will be chosen
+  kubectl attach mypod
+
+  # Get output from ruby-container from pod mypod
+  kubectl attach mypod -c ruby-container
+
+  # Switch to raw terminal mode, sends stdin to 'bash' in ruby-container from pod mypod
+  # and sends stdout/stderr from 'bash' back to the client
+  kubectl attach mypod -c ruby-container -i -t
+
+  # Get output from the first pod of a ReplicaSet named nginx
+  kubectl attach rs/nginx
+
+exec          Execute a command in a container
+==================================================
+
+  160  kubectl get pods
+  161  kubectl exec nodehelloworld.example.com ls
+  162  clear
+  163  kubectl exec nodehelloworld.example.com df -kh
+  164  kubectl exec nodehelloworld.example.com 'df -kh'
+  165  kubectl exec nodehelloworld.example.com 'df -h'
+  166  kubectl exec nodehelloworld.example.com 'df'
+  167  kubectl exec nodehelloworld.example.com du -sh
+  168  clear
+  169  kubectl exec nodehelloworld.example.com du
+  170  clearks
+  171  ckear
+  172  clear
+  173  kubectl exec -it nodehelloworld.example.com /bin/bash
+  174  kubectl exec -h
+
+
+  # Get output from running 'date' command from pod mypod, using the first container by default
+  kubectl exec mypod -- date
+
+  # Get output from running 'date' command in ruby-container from pod mypod
+  kubectl exec mypod -c ruby-container -- date
+
+  # Switch to raw terminal mode, sends stdin to 'bash' in ruby-container from pod mypod
+  # and sends stdout/stderr from 'bash' back to the client
+  kubectl exec mypod -c ruby-container -i -t -- bash -il
+
+  # List contents of /usr from the first container of pod mypod and sort by modification time.
+  # If the command you want to execute in the pod has any flags in common (e.g. -i),
+  # you must use two dashes (--) to separate your command's flags/arguments.
+  # Also note, do not surround your command and its flags/arguments with quotes
+  # unless that is how you would execute it normally (i.e., do ls -t /usr, not "ls -t /usr").
+  kubectl exec mypod -i -t -- ls -t /usr
+
+
+port-forward  Forward one or more local ports to a pod
+============================================================
+  # Listen on ports 5000 and 6000 locally, forwarding data to/from ports 5000 and 6000 in the pod
+  kubectl port-forward pod/mypod 5000 6000
+
+  # Listen on ports 5000 and 6000 locally, forwarding data to/from ports 5000 and 6000 in a pod selected by the
+deployment
+  kubectl port-forward deployment/mydeployment 5000 6000
+
+  # Listen on port 8888 locally, forwarding to 5000 in the pod
+  kubectl port-forward pod/mypod 8888:5000
+
+  # Listen on port 8888 on all addresses, forwarding to 5000 in the pod
+  kubectl port-forward --address 0.0.0.0 pod/mypod 8888:5000
+
+  # Listen on port 8888 on localhost and selected IP, forwarding to 5000 in the pod
+  kubectl port-forward --address localhost,10.19.21.23 pod/mypod 8888:5000
+
+  192  kubectl get pods -o wide
+  193  ping 10.44.0.1
+  194  clear
+  195  ls
+  197  kubectl port-forward -h
+  199  kubectl get pods -o wide
+  200  kubectl port-forward --address 0.0.0.0 pod/nodehelloworld.example.com 8888:80
+  202  ifconfig
+  203  clear
+  204  kubectl port-forward --address 0.0.0.0 pod/nodehelloworld.example.com 8888:80
+  205  kubectl port-forward -h
+
+  cp            Copy files and directories to and from containers.
+=============================================
+
+  212  kubectl get pods
+  213  kubectl exec nodehelloworld.example.com ls /tmp
+  214  ls
+  215  kubectl cp pod.yaml nodehelloworld.example.com:/tmp
+  216  kubectl exec nodehelloworld.example.com ls /tmp
+  218  kubectl cp nodehelloworld.example.com:/tmp/pod.yaml ./pod1.yaml
+  219  ls
+  220  kubectl cp -h
+
+
+  # !!!Important Note!!!
+  # Requires that the 'tar' binary is present in your container
+  # image.  If 'tar' is not present, 'kubectl cp' will fail.
+  #
+  # For advanced use cases, such as symlinks, wildcard expansion or
+  # file mode preservation consider using 'kubectl exec'.
+
+  # Copy /tmp/foo local file to /tmp/bar in a remote pod in namespace <some-namespace>
+  tar cf - /tmp/foo | kubectl exec -i -n <some-namespace> <some-pod> -- tar xf - -C /tmp/bar
+
+  # Copy /tmp/foo from a remote pod to /tmp/bar locally
+  kubectl exec -n <some-namespace> <some-pod> -- tar cf - /tmp/foo | tar xf - -C /tmp/bar
+
+  # Copy /tmp/foo_dir local directory to /tmp/bar_dir in a remote pod in the default namespace
+  kubectl cp /tmp/foo_dir <some-pod>:/tmp/bar_dir
+
+  # Copy /tmp/foo local file to /tmp/bar in a remote pod in a specific container
+  kubectl cp /tmp/foo <some-pod>:/tmp/bar -c <specific-container>
+
+  # Copy /tmp/foo local file to /tmp/bar in a remote pod in namespace <some-namespace>
+  kubectl cp /tmp/foo <some-namespace>/<some-pod>:/tmp/bar
+
+  # Copy /tmp/foo from a remote pod to /tmp/bar locally
+  kubectl cp <some-namespace>/<some-pod>:/tmp/foo /tmp/bar
+
+  auth          Inspect authorization
+================================================
+
+  224  kubectl auth
+  225  kubectl auth can-i create pod
+  226  kubectl auth can-i create namespace
+  227  kubectl auth can-i delete namespace
+  228  kubectl auth can-i -h
+
+
+  # Check to see if I can create pods in any namespace
+  kubectl auth can-i create pods --all-namespaces
+
+  # Check to see if I can list deployments in my current namespace
+  kubectl auth can-i list deployments.apps
+
+  # Check to see if I can do everything in my current namespace ("*" means all)
+  kubectl auth can-i '*' '*'
+
+  # Check to see if I can get the job named "bar" in namespace "foo"
+  kubectl auth can-i list jobs.batch/bar -n foo
+
+  # Check to see if I can read pod logs
+  kubectl auth can-i get pods --subresource=log
+
+  # Check to see if I can access the URL /logs/
+  kubectl auth can-i get /logs/
+
+  # List all allowed actions in namespace "foo"
+  kubectl auth can-i --list --namespace=foo
+
+
+  run           Run a particular image on the cluster
+==================================================
+POD 	|	RUNNING	 | 	Succedd	   | Failed
+		Container	Container		Container
+		is running	Successfully 		Failed
+				completed
+  # Start a nginx pod.
+  kubectl run nginx --image=nginx
+
+  # Start a hazelcast pod and let the container expose port 5701.
+  kubectl run hazelcast --image=hazelcast/hazelcast --port=5701
+
+  # Start a hazelcast pod and set environment variables "DNS_DOMAIN=cluster" and "POD_NAMESPACE=default" in the
+container.
+  kubectl run hazelcast --image=hazelcast/hazelcast --env="DNS_DOMAIN=cluster" --env="POD_NAMESPACE=default"
+
+  # Start a hazelcast pod and set labels "app=hazelcast" and "env=prod" in the container.
+  kubectl run hazelcast --image=hazelcast/hazelcast --labels="app=hazelcast,env=prod"
+
+  # Dry run. Print the corresponding API objects without creating them.
+  kubectl run nginx --image=nginx --dry-run=client
+
+  # Start a nginx pod, but overload the spec with a partial set of values parsed from JSON.
+  kubectl run nginx --image=nginx --overrides='{ "apiVersion": "v1", "spec": { ... } }'
+
+  # Start a busybox pod and keep it in the foreground, don't restart it if it exits.
+  kubectl run -i -t busybox --image=busybox --restart=Never
+
+  # Start the nginx pod using the default command, but use custom arguments (arg1 .. argN) for that command.
+  kubectl run nginx --image=nginx -- <arg1> <arg2> ... <argN>
+
+  # Start the nginx pod using a different command and custom arguments.
+  kubectl run nginx --image=nginx --command -- <cmd> <arg1> ... <argN>
+
