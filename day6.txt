@@ -1,3 +1,4 @@
+https://www.bestdevops.com/what-is-kubernetes-pods-with-example-commands/
 How to work with API?
 ==================================================
 	GET - POST - PUT - DELETE
