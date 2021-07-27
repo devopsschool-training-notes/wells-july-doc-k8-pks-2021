@@ -236,7 +236,7 @@ Example of ReplicasSets?
 
 
 
-
+https://www.bestdevops.com/assignment-for-kubernetes-replicassets-deamonsets-statefulsets/
 
 
 
