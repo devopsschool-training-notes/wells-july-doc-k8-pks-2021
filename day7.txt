@@ -1,0 +1,247 @@
+https://www.devopsschool.com/blog/working-with-kubernetes-cluster-using-kubectl-part-8-pods/
+https://www.devopsschool.com/blog/kubernetes-pod-example-programs/
+https://www.devopsschool.com/blog/kubernetes-pod-observability-and-deep-dive/
+https://www.devopsschool.com/blog/kubernetes-resource-requests-and-limits-of-pod-and-container/
+https://www.devopsschool.com/blog/working-with-kubernetes-cluster-using-kubectl-part-10-pods-life-cycle/
+https://www.devopsschool.com/blog/working-with-kubernetes-cluster-using-kubectl-part-9-multi-containers-pods/
+https://www.devopsschool.com/blog/working-with-kubernetes-cluster-using-kubectl-part-5-anatomy-api-request/
+https://www.devopsschool.com/blog/how-to-check-containers-readiness-inside-a-pod-using-readinessprobe/
+https://www.devopsschool.com/blog/how-to-check-containers-health-inside-a-kubernetes-pod-using-livenessprobe/
+https://www.devopsschool.com/blog/understanding-node-selector-and-node-affinity-in-kubernetes/
+==============================
+- Node
+- Namespaces
+- Pods
+-------------------------------------------
+AWS				Kubernetes
+-------------------------------------------
+VPC				Namespace			
+Ec2 instance			POD
+ASG				ReplicationController - ReplicasSets - Deployment
+				Statefulsets - Deamonsets
+NLB				Service
+ALB				ingress
+EBS				PVC
+IAM				RBAC -5 
+-----------------------------------------------
+ReplicationController
+Deployment
+Service
+-----------------------------------------------------------------------
+I want to create 1000s of SIMILAR PODS?
+-----------------------------------------------------------------------
+ReplicationController - ReplicasSets - Deployment
+				Statefulsets - Deamonsets
+------------------------------------------------------------------------
+ReplicationController
+
+A ReplicationController ensures that a specified number of pod replicas are running at any one time. In other words, a ReplicationController makes sure that a pod or a homogeneous set of pods is always up and available.
+
+Replication
+	- ONE PODs would replicate(SCALE) to X number of PODS
+Controller
+	- This controller would control #of ACTUAL PODS === #of Desire PODS
+	- If mis-matched - report back to API Server
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  # Unique key of the ReplicationController instance
+  name: replicationcontroller-example
+spec:
+  # 3 Pods should exist at all times.
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      # Run the nginx image
+      - name: nginx
+        image: scmgalaxy/nginx-devopsschoolv1
+
+
+
+replicationcontroller/replicationcontroller-example created
+[root@rajesh rajesh]# kubectl get rc
+NAME                            DESIRED   CURRENT   READY   AGE
+replicationcontroller-example   3         3         0       3s
+[root@rajesh rajesh]# kubectl get rc
+NAME                            DESIRED   CURRENT   READY   AGE
+replicationcontroller-example   3         3         3       13s
+[root@rajesh rajesh]# kubectl get pods
+NAME                                  READY   STATUS    RESTARTS   AGE
+replicationcontroller-example-8glnd   1/1     Running   0          21s
+replicationcontroller-example-b86xm   1/1     Running   0          21s
+replicationcontroller-example-fk4fg   1/1     Running   0          21s
+
+
+[root@rajesh rajesh]# kubectl get pods
+NAME                                  READY   STATUS    RESTARTS   AGE
+replicationcontroller-example-26fmw   1/1     Running   0          2m5s
+replicationcontroller-example-8glnd   1/1     Running   0          5m54s
+replicationcontroller-example-df5zh   1/1     Running   0          2m5s
+replicationcontroller-example-fk4fg   1/1     Running   0          5m54s
+replicationcontroller-example-ps4nk   1/1     Running   0          2m5s
+[root@rajesh rajesh]# kubectl delete pod replicationcontroller-example-26fmw replicationcontroller-example-8glnd replicationcontroller-example-df5zh replicationcontroller-example-fk4fg
+pod "replicationcontroller-example-26fmw" deleted
+pod "replicationcontroller-example-8glnd" deleted
+pod "replicationcontroller-example-df5zh" deleted
+pod "replicationcontroller-example-fk4fg" deleted
+[root@rajesh rajesh]# kubectl get pods
+NAME                                  READY   STATUS              RESTARTS   AGE
+replicationcontroller-example-5bqxv   0/1     ContainerCreating   0          11s
+replicationcontroller-example-dptd7   0/1     ContainerCreating   0          11s
+replicationcontroller-example-j5xx9   1/1     Running             0          11s
+replicationcontroller-example-prv9r   1/1     Running             0          11s
+replicationcontroller-example-ps4nk   1/1     Running             0          3m11s
+
+
+  254  kubectl -h
+  255  clear
+  256  kubectl create -h
+  257  clear
+  258  kubectl create -h
+  259  clear
+  260  vi rc.yaml
+  261  kubectl get rc
+  262  kubectl create -f rc.yaml
+  263  kubectl get rc
+  264  kubectl get pods
+  265  kubectl edit rc replicationcontroller-example
+  266  kubectl get pods
+  267  clear
+  268  kubectl get pods
+  269  clear
+  270  kubectl edit rc replicationcontroller-example
+  271  kubectl get pods
+  272  clear
+  273  kubectl get pods
+  274  vi rc.yaml
+  275  kubectl apply -f rc.yaml
+  276  kubectl get pods
+  277  kubectl scale -h
+  278  clear
+  279   kubectl scale --replicas=10 -f rc.yaml
+  280  kubectl get pods
+  281   kubectl scale --replicas=5 rs/replicationcontroller-example
+  282   kubectl scale --replicas=5 rc/replicationcontroller-example
+  283  kubectl get pod
+  284  clear
+  285  kubectl get pods
+  286  kubectl delete pod replicationcontroller-example-26fmw replicationcontroller-example-8glnd replicationcontroller-example-df5zh replicationcontroller-example-fk4fg
+  287  kubectl get pods
+===========================================
+https://www.devopsschool.com/blog/kubernetes-deployment-strategy-explained-with-example/
+https://www.devopsschool.com/blog/kubernetes-deployment-example-programs/
+https://www.devopsschool.com/blog/working-with-kubernetes-cluster-using-kubectl-part-5-anatomy-api-request/
+https://www.devopsschool.com/blog/kubernetes-yaml-file-faster-for-deployment-and-daemonset-using-kubectl/
+
+Deployment
+- Replication + Controller = ReplicasSets
+- versioning
+- rollout	= V1 to V2 of the POD without downtime
+- rollback	= V2 to V1 of the POD without downtime
+
+# This is a MOST popular Api Resources used to Deploy Stateless POD.
+
+Deployment == Managed by ==> ReplicasSets == Control ==> PODS
+
+ReplicasSets = replicationcontroller+++++++	
+-------------------------------------------------------
+
+
+  # Create a deployment named my-dep that runs the busybox image.
+  kubectl create deployment my-dep --image=busybox
+
+  # Create a deployment with command
+  kubectl create deployment my-dep --image=busybox -- date
+
+  # Create a deployment named my-dep that runs the nginx image with 3 replicas.
+  kubectl create deployment my-dep --image=nginx --replicas=3
+
+  # Create a deployment named my-dep that runs the busybox image and expose port 5701.
+  kubectl create deployment my-dep --image=busybox --port=5701
+
+
+kubectl create deployment my-dep --image=scmgalaxy/nginx-devopsschoolv1 --replicas=3
+
+
+kubectl scale --replicas=10 deploy/my-dep
+
+
+  291  kubectl create -h
+  292  clear
+  293  kubectl create deployment  -h
+  294  clear
+  295  kubectl get deploy
+  296  kubectl create deployment my-dep --image=scmgalaxy/nginx-devopsschoolv1 --replicas=3
+  297  kubectl get deploy
+  298  kubectl get rc
+  299  kubectl delete rc replicationcontroller-example
+  300  clear
+  301  kubectl get deploy
+  302  kubectl get pods
+  303  kubectl edit deploy my-dep
+  304  kubectl get pods
+  305  clear
+  306  kubectl get pods
+  307  kubectl scale --replicas=10 deploy/my-dep
+  308  kubectl get pods
+  309  clear
+  310  kubectl get deploy
+  311  kubectl get pod
+  312  kubectl delete pod my-dep-747b4ffb56-4b4c5 my-dep-747b4ffb56-6t2nc my-dep-747b4ffb56-cd9ws my-dep-747b4ffb56-d6xfw
+  313  kubectl get pod
+  314  clear
+  315  ls
+  316  kubectl get deploy
+  317  kubectl describe deploy my-dep
+  318  kubectl get rs
+  319  kubectl describe rs my-dep-747b4ffb56
+  320  clear
+  321  kubectl get pods
+  322  kubectl describe pods my-dep-747b4ffb56-flqjn
+
+
+Rollout
+
+$ kubectl create deployment my-dep --image=scmgalaxy/nginx-devopsschoolv1 --replicas=15
+$ kubectl rollout history deploy/my-dep
+$ kubectl rollout status deploy/my-dep
+$ kubectl get pods -o wide
+$ curl http://ip-of-pod
+$ kubectl edit deploy/my-dep # Change image to scmgalaxy/nginx-devopsschoolv2
+$ kubectl rollout history deploy/my-dep
+$ kubectl rollout status deploy/my-dep
+$ kubectl get pods -o wide
+$ curl http://ip-of-pod
+
+Rollback
+
+$ kubectl rollout history deploy/my-dep
+$ kubectl rollout undo deploy/my-dep --to-revision=1
+$ kubectl rollout status deploy/my-dep
+$ kubectl get pods -o wide
+$ curl http://ip-of-pod
+
+======================Assignment=============================
+@BestDevOps.com
+What is ReplicasSets?
+How to work with ReplicasSets?
+Example of ReplicasSets?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
