@@ -190,3 +190,85 @@ Reference
 - https://www.devopsschool.com/blog/kubectl-certificate-commands-explained-with-examples/
 
 
+Kubernetes Storage and Volumes Explained in crash way
+
+#Storage Types?
+- BLOCK Storage
+e.g - Laptop, ebs, disks, 
+- Network Storage
+e.g - NFS, efs, files
+- OBJECT STORAGE
+e.g - git, google drive, s3, blob
+
+#How we can make kubernetes understanding these storage types for using in pods?
+- "volume plugins" which is in built in kubernetes
+
+#What are the volume plugins supported in kubernetes?
+- awsElasticBlockStore - AWS Elastic Block Store (EBS)
+- azureDisk - Azure Disk
+- azureFile - Azure File
+- cephfs - CephFS volume
+- cinder - Cinder (OpenStack block storage) (deprecated)
+- csi - Container Storage Interface (CSI)
+- fc - Fibre Channel (FC) storage
+- flexVolume - FlexVolume
+- flocker - Flocker storage
+- gcePersistentDisk - GCE Persistent Disk
+- glusterfs - Glusterfs volume
+- hostPath - HostPath volume (for single node testing only; WILL NOT WORK in a multi-node cluster; consider using local volume instead)
+- iscsi - iSCSI (SCSI over IP) storage
+- local - local storage devices mounted on nodes.
+- nfs - Network File System (NFS) storage
+- photonPersistentDisk - Photon controller persistent disk. (This volume type no longer works since the removal of the corresponding - cloud provider.)
+- portworxVolume - Portworx volume
+- quobyte - Quobyte volume
+- rbd - Rados Block Device (RBD) volume
+- scaleIO - ScaleIO volume (deprecated)
+- storageos - StorageOS volume
+- vsphereVolume - vSphere VMDK volume
+
+#Role & Responsibilties
+Who would  Add "Storage types" in clustor - kubernetes clustor administrator
+Who would  Use attached volume in clustor - kubernetes user and developer
+
+#How to Add "Storage types" using "volume plugins" to the kubernetes clustor by clustor administrator?
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Assignment
+- #1 - How certitifate based Authentication works? exaplain in kubernetes context.
+- #1 - What is Block Storage?
+- #3 - How volume plugins in kubernetes works?
+- #4 - What is StorageClass? and How to work with it with sample StorageClass, PV, PVC, POD.ymal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
