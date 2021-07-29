@@ -1,0 +1,192 @@
+Authentication & auth	===== IAM
+==========================
+
+Storage	==== EBS + EFS + S3
+================================================
+Authentication & Authorization
+================================================
+Authentication
+https://kubernetes.io/docs/reference/access-authn-authz/authentication/
+How i can login to "API Server" & other components
+- Certificate
+- Token
+- OpenID
+- Web Hook
+
+How Certificate Based Auth Works?
+---------------------------------
+
+
+How Token Based Auth Works?
+---------------------------------
+
+# USER run these commands in Workstation
+# Create a pvt key
+$ openssl genrsa -out employee.key 2048
+
+# Create CSR file
+$ openssl req -new -key employee.key -out employee.csr -subj "/CN=employee/O=bitnami"
+
+# How to send a CSR file to CA (Master Admin or K8s admin)
+- Send via manual way eg. email
+- csr api
+
+# Admin run these commands in Workstation
+$ openssl x509 -req -in employee.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out employee.crt -days 500
+
+# Admin would send employee.crt to USER.
+- Send via manual way eg. email 
+- csr api - they can download self
+
+# USER would set employee.key & employee.crt in CONFIG file.
+
+$ kubectl config set-credentials employee --client-certificate=/root/employee.crt  --client-key=/root/employee.key
+
+$ kubectl config view
+
+$ kubectl config set-context employee-context --cluster=kubernetes --namespace=office --user=employee
+
+$ kubectl config view
+
+$ kubectl create namespace office
+
+$ kubectl --context=employee-context get pods
+
+[root@rajesh ~]# kubectl --context=employee-context get pods
+Error from server (Forbidden): pods is forbidden: User "employee" cannot list resource "pods" in API group "" in the namespace "office"
+# Only we have enabled employee authentication. He has no rights on K8s.
+
+
+How to Authorized user in kubernetes clustor?
+--------------------------------------------
+- https://kubernetes.io/docs/reference/access-authn-authz/authorization/
+
+WHOM - USER or GROUP
+WHAT - verbs: ["get", "list", "watch", "create", "update", "patch", "delete"] # You can also use ["*"] 
+WHERE - API Resources or API Group $ kubectl api-resources
+How???
+- Node
+- ABAC 
+- RBAC 		[ FOCUS ] 
+- Webhook 
+
+How RBAC works?
+-----------------------
+ROlE BASED ACCESS CONTROL
+-----------------------------
+ROLE TYPE
+- role: This to be used for graning access to Namespace
+- clustorrole: This to be used for graning access to Clustor
+
+User Type
+- User: like me.
+- Service Account: a user which is used by system
+
+role contains
+- WHAT - verbs: ["get", "list", "watch", "create", "update", "patch", "delete"] # You can also use ["*"] 
+- WHERE - API Resources or API Group $ kubectl api-resources 
+&
+WHOM - USER OR& GROUP or& Service Account #using ROLE BINDING
+
+clustorrole contains
+- WHAT - verbs: ["get", "list", "watch", "create", "update", "patch", "delete"] # You can also use ["*"] 
+- WHERE - API Resources or API Group $ kubectl api-resources 
+&
+WHOM - USER OR& GROUP or& Service Account #using CLUSTORROLE BINDING  
+
+API resources for working with RBAC
+- serviceaccounts
+- roles
+- clusterroles
+- rolebindings
+- clusterrolebindings
+
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: office
+  name: deployment-manager
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["deployments", "replicasets", "pods"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"] # You can also use ["*"]
+
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: deployment-manager-binding
+  namespace: office
+subjects:
+- kind: User
+  name: employee
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: deployment-manager
+  apiGroup: ""
+
+
+$ kubectl --context=employee-context run nginx --image=nginx
+$ kubectl --context=employee-context get pods
+
+
+[root@rajesh ~]# kubectl --context=employee-context run nginx --image=nginx
+pod/nginx created
+[root@rajesh ~]# kubectl get pod -n=office
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          18s
+[root@rajesh ~]# ubectl --context=employee-context run nginx --image=nginx^C
+[root@rajesh ~]# kubectl --context=employee-context get pods
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          54s
+[root@rajesh ~]# kubectl --context=employee-context get svc
+Error from server (Forbidden): services is forbidden: User "employee" cannot list resource "services" in API group "" in the namespace "office"
+[root@rajesh ~]#
+
+
+
+
+
+
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "namespace" omitted since ClusterRoles are not namespaced
+  name: secret-reader
+rules:
+- apiGroups: [""]
+  #
+  # at the HTTP level, the name of the resource for accessing Secret
+  # objects is "secrets"
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
+
+apiVersion: rbac.authorization.k8s.io/v1
+# This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
+kind: ClusterRoleBinding
+metadata:
+  name: read-secrets-global
+subjects:
+- kind: Group
+  name: manager # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: secret-reader
+  apiGroup: rbac.authorization.k8s.io
+
+
+
+
+
+Assignmet
+#1 - How certitifate based Authentication works? exaplain in kubernetes context.
+
+
+Reference
+- https://www.devopsschool.com/blog/kubectl-certificate-commands-explained-with-examples/
+
+
