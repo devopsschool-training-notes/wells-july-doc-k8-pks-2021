@@ -1,0 +1,283 @@
+Getting Started with Cloud Foundry for Kubernetes
+-------------------------------------------
+https://tanzu.vmware.com/developer/guides/kubernetes/cf4k8s-gs/
+
+How to create VMs in Azure?
+-------------------------------
+https://docs.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-portal
+
+
+20.55.68.114
+ubuntu
+PaSh523s7ds2333
+
+ssh ubuntu@20.55.68.114
+
+Step 1- Install the cf CLI Using a Package Manager
+=================================================================
+Add the Cloud Foundry Foundation public key and package repository to your system by running:
+
+wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+
+Update your local package index by running:
+sudo apt-get update
+
+To install cf CLI v7, run:
+sudo apt-get install cf7-cli
+
+To install cf CLI v6, run:
+sudo apt-get install cf-cli
+cf version
+root@ubuntu:/home/ubuntu# cf --help
+cf version 7.2.0+be4a5ce2b.2020-12-10, Cloud Foundry command line tool
+Usage: cf [global options] command [arguments...] [command options]
+
+Before getting started:
+  config    login,l      target,t
+  help,h    logout,lo
+
+Application lifecycle:
+  apps,a        run-task,rt    events
+  push,p        logs           set-env,se
+  start,st      ssh            create-app-manifest
+  stop,sp       app            delete,d
+  restart,rs    env,e          apply-manifest
+  restage,rg    scale          revisions
+
+Services integration:
+  marketplace,m        create-user-provided-service,cups
+  services,s           update-user-provided-service,uups
+  create-service,cs    create-service-key,csk
+  update-service       delete-service-key,dsk
+  delete-service,ds    service-keys,sk
+  service              service-key
+  bind-service,bs      bind-route-service,brs
+  unbind-service,us    unbind-route-service,urs
+
+Route and domain management:
+  routes,r        delete-route    create-private-domain,create-domain
+  domains         map-route
+  create-route    unmap-route
+
+Space management:
+  spaces            create-space,csp    set-space-role
+  space-users       delete-space        unset-space-role
+  apply-manifest
+
+Org management:
+  orgs,o       set-org-role
+  org-users    unset-org-role
+
+CLI plugin management:
+  plugins           add-plugin-repo      repo-plugins
+  install-plugin    list-plugin-repos
+
+Commands offered by installed plugins:
+
+Global options:
+  --help, -h                         Show help
+  -v                                 Print API request diagnostics to stdout
+
+TIP: Use 'cf help -a' to see all commands.
+
+Step 2-  You will need kubectl to interact with your cluster kubectl install instructions
+
+Download the latest release with the command:
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+Install kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+$ kubectl
+kubectl version --client
+
+Step 3-  KinD (Kubernetes in Docker) to instantiate your local cluster
+================================================================================
+
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+chmod +x ./kind
+mv ./kind /usr/local/bin/kind
+kind version
+$ kind
+kind creates and manages local Kubernetes clusters using Docker container 'nodes'
+
+Usage:
+  kind [command]
+
+Available Commands:
+  build       Build one of [node-image]
+  completion  Output shell completion code for the specified shell (bash, zsh or fish)
+  create      Creates one of [cluster]
+  delete      Deletes one of [cluster]
+  export      Exports one of [kubeconfig, logs]
+  get         Gets one of [clusters, nodes, kubeconfig]
+  help        Help about any command
+  load        Loads images into nodes
+  version     Prints the kind CLI version
+
+Flags:
+  -h, --help              help for kind
+      --loglevel string   DEPRECATED: see -v instead
+  -q, --quiet             silence all stderr output
+  -v, --verbosity int32   info log verbosity
+      --version           version for kind
+
+Use "kind [command] --help" for more information about a command.
+
+
+Step 4-  Bosh CLI the ./hack/generate-values.sh script will use the Bosh CLI to generate certificates, keys, and passwords in the file ./cf-install-values.yml
+================================================================================
+
+wget https://github.com/cloudfoundry/bosh-cli/releases/download/v6.4.4/bosh-cli-6.4.4-linux-amd64
+chmod +x ./bosh
+mv bosh-cli-6.4.4-linux-amd64 bosh
+sudo mv ./bosh /usr/local/bin/bosh
+bosh 
+
+Step 5-  kapp (v0.21.0+) will aid you to deploy cf-for-k8s to your cluster
+================================================================================
+$ wget -O- https://carvel.dev/install.sh | bash
+# or with curl...
+$ curl -L https://carvel.dev/install.sh | bash
+
+$ kapp --version
+
+Step 6-  ytt (v0.26.0+) will help create templates to deploy cf-for-k8s
+================================================================================
+
+wget https://github.com/vmware-tanzu/carvel-ytt/releases/download/v0.35.1/ytt-linux-amd64
+mv ytt-linux-amd64 ytt
+chmod +x ./ytt
+sudo mv ./ytt /usr/local/bin/ytt
+ytt version
+
+Step 7-  DockerHub is the image registry used in this guide please make an account if you don’t have one they are free and quickly made.
+================================================================================
+Username - devopsschools
+Password/Token - d6b938ab-4bf2-4b49-b7c9-1f2cbdbc8337
+
+
+Step 8-  Clone cf-for-k8s github repo
+================================================================================
+git clone https://github.com/cloudfoundry/cf-for-k8s.git && cd cf-for-k8s
+
+Step 9- Install Docker
+================================================================================
+apt install docker.io
+
+
+Step 10- 
+================================================================================ 
+# Review ./deploy/kind/cluster.yml
+$ kind create cluster --config=./deploy/kind/cluster.yml
+
+root@ubuntu:~/cf-for-k8s# kind create cluster --config=./deploy/kind/cluster.yml
+Creating cluster "kind" ...
+ ✓ Ensuring node image (kindest/node:v1.21.1) 🖼
+ ✓ Preparing nodes 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing CNI 🔌
+ ✓ Installing StorageClass 💾
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-kind
+
+Have a nice day! 👋
+root@ubuntu:~/cf-for-k8s#
+
+root@ubuntu:~/cf-for-k8s# kubectl --context kind-kind get nodes
+NAME                 STATUS   ROLES                  AGE   VERSION
+kind-control-plane   Ready    control-plane,master   99s   v1.21.1
+
+root@ubuntu:~/cf-for-k8s# kubectl --context kind-kind get pods --all-namespaces
+NAMESPACE            NAME                                         READY   STATUS    RESTARTS   AGE
+kube-system          coredns-558bd4d5db-ngr7w                     1/1     Running   0          86s
+kube-system          coredns-558bd4d5db-qdgds                     1/1     Running   0          86s
+kube-system          etcd-kind-control-plane                      1/1     Running   0          101s
+kube-system          kindnet-8hf89                                1/1     Running   0          86s
+kube-system          kube-apiserver-kind-control-plane            1/1     Running   0          100s
+kube-system          kube-controller-manager-kind-control-plane   1/1     Running   0          95s
+kube-system          kube-proxy-vrnd4                             1/1     Running   0          86s
+kube-system          kube-scheduler-kind-control-plane            1/1     Running   0          94s
+local-path-storage   local-path-provisioner-547f784dff-5nltj      1/1     Running   0          86s
+root@ubuntu:~/cf-for-k8s#
+
+
+Step 11 - Generate the yaml used to deploy CF for k8s
+================================================================================
+
+root@ubuntu:~/cf-for-k8s# ./hack/generate-values.sh -d vcap.me > ./cf-install-values.yml
+WARNING: The hack scripts are intended for development of cf-for-k8s.
+  They are not officially supported product bits.  Their interface and behavior
+  may change at any time without notice.
+root@ubuntu:~/cf-for-k8s#
+
+
+
+Step 12 - Append the app_registry credentials to your DockerHub registry to the bottom of the ./cf-install-values.yml replacing with your information. You can copy/paste or use the following command.
+================================================================================
+
+cat >> cf-install-values.yml << EOL
+app_registry:
+  hostname: https://index.docker.io/v1/
+  repository_prefix: "devopsschools"
+  username: "devopsschools"
+  password: "d6b938ab-4bf2-4b49-b7c9-1f2cbdbc8337"
+EOL
+
+Step 13 - There are a few more lines to add to your cf-install-values.yml, like adding a metrics server because KinD doesn’t come with one.
+
+
+cat >> cf-install-values.yml << EOL
+add_metrics_server_components: true
+enable_automount_service_account_token: true
+metrics_server_prefer_internal_kubelet_address: true
+remove_resource_requirements: true
+use_first_party_jwt_tokens: true
+
+load_balancer:
+  enable: false
+EOL
+
+Step 14 - Now, use cf-install-values.yml to render the final Kubernetes template to raw Kubernetes configuration.
+
+$ ytt -f config -f ./cf-install-values.yml > ./cf-for-k8s-rendered.yml
+
+Step 15 - Deploy CF for k8s
+You are ready to deploy cf-for-k8s using the ./cf-for-k8s-rendered.yml file created above. Once you deploy it should take around 10 minutes to finish.
+
+$ kapp deploy -a cf -f ./cf-for-k8s-rendered.yml -y
+
+
+---------------------
+6:56:42AM:  L ok: waiting on replicaset/cf-blobstore-minio-65cc549448 (apps/v1) namespace: cf-blobstore
+6:56:42AM:  L ongoing: waiting on pod/cf-blobstore-minio-65cc549448-shqn9 (v1) namespace: cf-blobstore
+6:56:42AM:     ^ Condition Ready is not True (False)
+6:56:49AM: fail: reconcile deployment/kpack-controller (apps/v1) namespace: kpack
+6:56:49AM:  ^ Deployment is not progressing: ProgressDeadlineExceeded (message: ReplicaSet "kpack-controller-6c555dc47f" has timed out progressing.)
+
+kapp: Error: waiting on reconcile deployment/kpack-controller (apps/v1) namespace: kpack:
+  Finished unsuccessfully (Deployment is not progressing: ProgressDeadlineExceeded (message: ReplicaSet "kpack-controller-6c555dc47f" has timed out progressing.))
+---------------------
+  94  kubectl --context kind-kind get deploy --all-namespaces
+   95  kubectl --context kind-kind get pod --all-namespaces
+   96  kubectl --context kind-kind describe pods kpack-controller-6c555dc47f-mtmdg -n=kpack
+---------------------------------
+  Normal   Scheduled            18m                default-scheduler  Successfully assigned kpack/kpack-controller-6c555dc47f-mtmdg to kind-control-plane
+  Warning  FailedMount          18m (x2 over 18m)  kubelet            MountVolume.SetUp failed for volume "istiod-ca-cert" : failed to sync configmap cache: timed out waiting for the condition
+  Normal   Pulled               18m                kubelet            Container image "index.docker.io/istio/proxyv2:1.10.2" already present on machine
+  Normal   Started              18m                kubelet            Started container istio-init
+  Normal   Created              18m                kubelet            Created container istio-init
+  Warning  FailedPostStartHook  17m                kubelet            Exec lifecycle hook ([pilot-agent wait]) for Container "istio-proxy" in Pod "kpack-controller-6c555dc47f-mtmdg_kpack(ba93ea70-a528-421f-b7c3-b608fa24ace0)" failed - error: command 'pilot-agent wait' exited with 255: Error: timeout waiting for Envoy proxy to become ready. Last error: Get "http://localhost:15021/healthz/ready": dial tcp [::1]:15021: connect: connection refused
+, message: "2021-08-02T06:46:54.842187Z\tinfo\tWaiting for Envoy proxy to be ready (timeout: 60 seconds)...\n2021-08-02T06:47:55.011099Z\terror\ttimeout waiting for Envoy proxy to become ready. Last error: Get \"http://localhost:15021/healthz/ready\": dial tcp [::1]:15021: connect: connection refused\nError: timeout waiting for Envoy proxy to become ready. Last error: Get \"http://localhost:15021/healthz/ready\": dial tcp [::1]:15021: connect: connection refused\n"
+  Normal   Pulling              17m                kubelet  Pulling image "gcr.io/cf-build-service-public/kpack/controller@sha256:4b3c825d6fb656f137706738058aab59051d753312e75404fc5cdaf49c352867"
+---------------------
+
+
+
+
+
+
