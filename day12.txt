@@ -1,0 +1,1 @@
+https://www.devopsschool.com/blog/getting-started-with-cloud-foundry-for-kubernetes-using-cf-for-k8s-in-linuxubuntu/
