@@ -1,1 +1,3 @@
 https://www.bestdevops.com/command-line-example-tutorials-for-cloud-foundry/
+https://github.com/devopsschool-sample-programs/cloud-foundary-python-hello-app
+https://github.com/cloudfoundry-samples/test-app
