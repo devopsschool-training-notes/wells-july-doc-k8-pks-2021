@@ -1,0 +1,1 @@
+https://www.devopsschool.com/blog/how-to-setup-vmware-tanzu-on-azure/
