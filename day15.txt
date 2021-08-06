@@ -1,0 +1,13 @@
+=============== POST TEST ==========================
+
+Login https://www.devopsschool.com/lms using Gmail id
+
+Docker Essential Quiz - 2
+https://www.devopsschool.com/lms/mod/quiz/view.php?id=250
+
+Kubernetes Essential Quiz - 2
+https://www.devopsschool.com/lms/course/view.php?id=42
+
+PKS
+- List out top 15 commands in Vmware Tanze Application service aka PCF.
+@BestDevOps.com
